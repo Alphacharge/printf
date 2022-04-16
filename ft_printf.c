@@ -12,22 +12,16 @@
 
 #include "libftprintf.h"
 
-int	ft_checkforoption(const char *formstr, int *pos, int curarg)
+int	ft_checkforoption(const char c)
 {
-	char	next;
+	char set[10];
+	int	i;
 
-	next = formstr[*pos + 1]
-	if (x == '%')
-	else if (x == 'c')
-	else if (x == 's')
-	else if (x == 'p')
-	else if (x == 'd')
-	else if (x == 'i')
-	else if (x == 'u')
-	else if (x == 'x')
-	else if (x == 'X')
-	else
-		return (0);
+	set = "%cspdiuxX\0";
+	i = 0;
+	while (set[i] != '\0' && c != set[i])
+		i++;
+	return (i);
 }
 
 int	ft_printf(const char *format, ...)
@@ -42,7 +36,8 @@ int	ft_printf(const char *format, ...)
 	{
 		if (format[chars] = '%')
 		{
-		chars += ft_checkforoption(format, &chars);
+			if (ft_checkforoption(format[chars]) > 0);
+				ft_getarg(),
 		}
 		chars++;
 	}
