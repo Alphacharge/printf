@@ -19,9 +19,13 @@ int	ft_checkforoption(const char c)
 
 	set = "%cspdiuxX\0";
 	i = 0;
+	if (ft_isspace(c) == 1)
+		ft
 	while (set[i] != '\0' && c != set[i])
 		i++;
-	return (i);
+	if (set[i] == '\0')
+		return (0);
+	return (1);
 }
 
 int	ft_printf(const char *format, ...)
@@ -36,10 +40,11 @@ int	ft_printf(const char *format, ...)
 	{
 		if (format[chars] = '%')
 		{
-			if (ft_checkforoption(format[chars]) > 0);
-				ft_getarg(),
+			if (ft_checkforoption(format[chars++]) != 0);
+				numargs++;
 		}
 		chars++;
 	}
+	
 	return (chars);
 }
