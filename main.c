@@ -6,7 +6,7 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:00:49 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/19 16:49:06 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/20 14:33:29 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int main(void)
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	printf(GREEN"A little String:\n"NC);
 	printf("Original one	:%s	:\n", "Where is the end of the World?");
+	ft_printf("Your one	:%s	:\n", "Where is the end of the World?");
 	ft_printf("Your one	:%s	:\n", "Where is the end of the World?");
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	printf(GREEN"String without flag:\n"NC);
