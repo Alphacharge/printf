@@ -6,7 +6,7 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:38:56 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/20 16:24:11 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/22 11:24:13 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ void ft_flaghandling(char c, va_list args)
 		ft_putstr_fd(va_arg(args, char *), 1);
 	else if (c == 'i' || c == 'd')
 		ft_putstr_fd(ft_itoa(va_arg(args, int)), 1);
+	else if (c == 'u')
+		ft_putstr_fd(ft_utoa(va_arg(args, unsigned int)), 1);
 	else
 		ft_putchar_fd(c, 1);
 }
 
-int	ft_checkforoption(const char c, const char cc, va_list	args)
+int	ft_checkforoption(const char c, va_list	args)
 {
 	char set[10] = "cspdiuxX%%";
 	char x;
@@ -43,12 +45,6 @@ int	ft_checkforoption(const char c, const char cc, va_list	args)
 	// set = "cspdiuxX%%";
 	i = 0;
 	x = c;
-	// if (c == '\0' || cc == '\0')
-	// 	return (0);
-	if (ft_isspace(c) == 1)
-	{
-		x = cc;
-	}
 	while (set[i] != '\0' && x != set[i])
 		i++;
 	if (set[i] != '\0')
@@ -69,9 +65,9 @@ int	ft_printf(const char *format, ...)
 	va_start(args, format);
 	while (chars < ft_strlen(format) && format[chars] != '\0')
 	{
-		if (format[chars] == '%' && format[chars+1] != '\0' && format[chars+2] != '\0')
+		if (format[chars] == '%' && format[chars+1] != '\0')
 		{
-			ft_checkforoption(format[chars+1], format[chars+2], args);
+			ft_checkforoption(format[chars+1], args);
 			chars++;
 		}
 		else if (format[chars] != '%')

@@ -6,7 +6,7 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:00:49 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/20 14:33:29 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/22 11:23:33 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ int main(void)
 	printf(GREEN"%% gave us an integer. Can you print it?:\n"NC);
 	printf("Original one	:%%%s%i	:\n", "s Integer: ", 45);
 	ft_printf("Your one	:%%%s%i	:\n", "s Integer: ", 45);
+	printf("#-#-#-#-#-#-#-#-#-#-#\n");
+	printf(GREEN"What's with negativ, MAX and MIN?:\n"NC);
+	printf("Original one	:%i, %i, %i	:\n", -125, 2147483647, -2147483648);
+	ft_printf("Your one	:%i, %i, %i	:\n", -125, 2147483647, -2147483648);
+	printf("#-#-#-#-#-#-#-#-#-#-#\n");
+	printf(GREEN"Oh, it's no Integer. It's a decimal. What about that?:\n"NC);
+	printf("Original one	:%d, %d, %d, %d	:\n",75031, -125, 2147483647, -2147483648);
+	ft_printf("Your one	:%d, %d, %d, %d	:\n",75031, -125, 2147483647, -2147483648);
+	printf("#-#-#-#-#-#-#-#-#-#-#\n");
+	printf(GREEN"Or an Unsigned?:\n"NC);
+	printf("Original one	:%u, %u, %u, %u	:\n",75031, -125, 4294967295, 0);
+	ft_printf("Your one	:%u, %u, %u, %u	:\n",75031, -125, 4294967295, 0);
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	return (0);
 }
