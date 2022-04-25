@@ -6,18 +6,68 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:38:56 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/22 11:24:13 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/25 14:36:35 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
-
+#include <stdio.h>
 int	ft_isspace(char c)
 {	
 	if (c == '\t' || c == '\v' || c == '\f'
 		|| c == '\r' || c == '\n' || c == ' ')
 		return (1);
 	return (0);
+}
+
+static int	ft_counthex(long c)
+{
+	int	n;
+
+	n = 0;
+	if (c == 0)
+		return (1);
+	while (c != 0)
+	{
+		c = c / 16;
+		n++;
+	}
+	return (n);
+}
+
+int	ft_hex(long number, char c)
+{
+	long	quotient;
+	long	remainder;
+	int		i;
+	char	*result;
+	
+	quotient = number;
+	if (number == 0)
+	{
+		ft_putchar_fd('0', 1);
+		return (1);
+	}
+	i = ft_counthex(number);
+	result = ft_calloc(i + 1,sizeof(char));
+	if (result == NULL)
+		return (0);
+	while (quotient != 0 && i > 0)
+	{
+		i--;
+		remainder = quotient % 16;
+		if (remainder < 10)
+			result[i] = remainder + '0';
+		else if (c == 'X')
+			result[i] = remainder + 'A' - 10;
+		else
+			result[i] = remainder + 'a' - 10;
+		quotient = quotient / 16;
+	}
+	ft_putstr_fd("0x", 1);
+	ft_putstr_fd(result, 1);
+	free(result);
+	return(ft_counthex(number));
 }
 
 void ft_flaghandling(char c, va_list args)
@@ -31,7 +81,9 @@ void ft_flaghandling(char c, va_list args)
 	else if (c == 'i' || c == 'd')
 		ft_putstr_fd(ft_itoa(va_arg(args, int)), 1);
 	else if (c == 'u')
-		ft_putstr_fd(ft_utoa(va_arg(args, unsigned int)), 1);
+		ft_putstr_fd(ft_itoa(va_arg(args, unsigned int)), 1);
+	else if (c == 'p' || c == 'x' || c == 'X')
+		ft_hex(va_arg(args, unsigned int), c);
 	else
 		ft_putchar_fd(c, 1);
 }

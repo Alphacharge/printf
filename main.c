@@ -6,7 +6,7 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:00:49 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/22 11:23:33 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/25 14:35:47 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int main(void)
 	printf(GREEN"A little String:\n"NC);
 	printf("Original one	:%s	:\n", "Where is the end of the World?");
 	ft_printf("Your one	:%s	:\n", "Where is the end of the World?");
-	ft_printf("Your one	:%s	:\n", "Where is the end of the World?");
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	printf(GREEN"String without flag:\n"NC);
 	printf("Original one	:Is it here?	:\n");
@@ -44,16 +43,28 @@ int main(void)
 	ft_printf("Your one	:%%%s%i	:\n", "s Integer: ", 45);
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	printf(GREEN"What's with negativ, MAX and MIN?:\n"NC);
-	printf("Original one	:%i, %i, %i	:\n", -125, 2147483647, -2147483648);
+	printf("Original one	:%i, %i, %i	:\n", -125, 2147483647, (int)-2147483648);
 	ft_printf("Your one	:%i, %i, %i	:\n", -125, 2147483647, -2147483648);
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	printf(GREEN"Oh, it's no Integer. It's a decimal. What about that?:\n"NC);
-	printf("Original one	:%d, %d, %d, %d	:\n",75031, -125, 2147483647, -2147483648);
+	printf("Original one	:%d, %d, %d, %d	:\n",75031, -125, 2147483647, (int)-2147483648);
 	ft_printf("Your one	:%d, %d, %d, %d	:\n",75031, -125, 2147483647, -2147483648);
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	printf(GREEN"Or an Unsigned?:\n"NC);
-	printf("Original one	:%u, %u, %u, %u	:\n",75031, -125, 4294967295, 0);
+	printf("Original one	:%u, %u, %u, %u	:\n",75031, -125, (unsigned int)4294967295, 0);
 	ft_printf("Your one	:%u, %u, %u, %u	:\n",75031, -125, 4294967295, 0);
+	printf("#-#-#-#-#-#-#-#-#-#-#\n");
+	printf(GREEN"He is asking for a hexadecimal code:\n"NC);
+	printf("Original one	:%x, %x, %x, %x	:\n", 75031, 125, (unsigned int)4294967295, 0);
+	ft_printf("Your one	:%x, %x, %x, %x	:\n", 75031, 125, 4294967295, 0);
+	printf("#-#-#-#-#-#-#-#-#-#-#\n");
+	printf(GREEN"He want it in Capslock!:\n"NC);
+	printf("Original one	:%X, %X, %X, %X	:\n",75031, 125, (unsigned int)4294967295, 0);
+	ft_printf("Your one	:%X, %X, %X, %X	:\n",75031, 125, 4294967295, 0);
+	printf("#-#-#-#-#-#-#-#-#-#-#\n");
+	printf(GREEN":\n"NC);
+	printf("Original one	:%p	:\n", NULL);
+	ft_printf("Your one	:%p	:\n", NULL);
 	printf("#-#-#-#-#-#-#-#-#-#-#\n");
 	return (0);
 }
