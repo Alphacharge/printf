@@ -6,21 +6,13 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:38:56 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/25 14:36:35 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/27 17:20:14 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
-#include <stdio.h>
-int	ft_isspace(char c)
-{	
-	if (c == '\t' || c == '\v' || c == '\f'
-		|| c == '\r' || c == '\n' || c == ' ')
-		return (1);
-	return (0);
-}
+#include "ft_printf.h"
 
-static int	ft_counthex(long c)
+int	ft_counthex(unsigned long c)
 {
 	int	n;
 
@@ -35,21 +27,16 @@ static int	ft_counthex(long c)
 	return (n);
 }
 
-int	ft_hex(long number, char c)
+int	ft_hex(unsigned long quotient, char c)
 {
-	long	quotient;
 	long	remainder;
 	int		i;
 	char	*result;
-	
-	quotient = number;
-	if (number == 0)
-	{
-		ft_putchar_fd('0', 1);
-		return (1);
-	}
-	i = ft_counthex(number);
-	result = ft_calloc(i + 1,sizeof(char));
+
+	if (quotient == 0)
+		return (ft_putchar_fd('0', 1));
+	i = ft_counthex(quotient);
+	result = ft_calloc(i + 1, sizeof(char));
 	if (result == NULL)
 		return (0);
 	while (quotient != 0 && i > 0)
@@ -64,49 +51,52 @@ int	ft_hex(long number, char c)
 			result[i] = remainder + 'a' - 10;
 		quotient = quotient / 16;
 	}
-	ft_putstr_fd("0x", 1);
-	ft_putstr_fd(result, 1);
+	i = ft_putstr_fd(result, 1, c);
 	free(result);
-	return(ft_counthex(number));
+	return (i);
 }
 
-void ft_flaghandling(char c, va_list args)
+int	ft_flaghandling(char c, va_list args)
 {
 	if (c == 'c')
-		ft_putchar_fd(va_arg(args, int), 1);
+		return (ft_putchar_fd(va_arg(args, int), 1));
 	else if (c == '%')
-		ft_putchar_fd('%', 1);
+		return (ft_putchar_fd('%', 1));
 	else if (c == 's')
-		ft_putstr_fd(va_arg(args, char *), 1);
+		return (ft_putstr_fd(va_arg(args, char *), 1, c));
 	else if (c == 'i' || c == 'd')
-		ft_putstr_fd(ft_itoa(va_arg(args, int)), 1);
+		return (ft_putstr_fd(ft_itoa(va_arg(args, int)), 1, c));
 	else if (c == 'u')
-		ft_putstr_fd(ft_itoa(va_arg(args, unsigned int)), 1);
-	else if (c == 'p' || c == 'x' || c == 'X')
-		ft_hex(va_arg(args, unsigned int), c);
+		return (ft_putstr_fd(ft_itoa(va_arg(args, unsigned int)), 1, c));
+	else if (c == 'x' || c == 'X')
+		return (ft_hex(va_arg(args, unsigned int), c));
+	else if (c == 'p')
+	{
+		ft_putstr_fd("0x", 1, c);
+		return (ft_hex(va_arg(args, unsigned long), c) + 2);
+	}
 	else
-		ft_putchar_fd(c, 1);
+		return (0);
 }
 
-int	ft_checkforoption(const char c, va_list	args)
+int	ft_loop_format(const char *format, int chars, va_list args)
 {
-	char set[10] = "cspdiuxX%%";
-	char x;
 	int	i;
 
-	// set = "cspdiuxX%%";
 	i = 0;
-	x = c;
-	while (set[i] != '\0' && x != set[i])
-		i++;
-	if (set[i] != '\0')
+	while (format[i] != '\0')
 	{
-		ft_flaghandling(set[i], args);
-		return (1);
+		if (format[i] == '%' && format[i + 1] != '\0')
+		{
+			chars += ft_flaghandling(format[i + 1], args);
+			i++;
+		}
+		else
+			chars += ft_putchar_fd(format[i], 1);
+		i++;
 	}
-	return (0);
+	return (chars);
 }
-
 
 int	ft_printf(const char *format, ...)
 {
@@ -115,17 +105,7 @@ int	ft_printf(const char *format, ...)
 
 	chars = 0;
 	va_start(args, format);
-	while (chars < ft_strlen(format) && format[chars] != '\0')
-	{
-		if (format[chars] == '%' && format[chars+1] != '\0')
-		{
-			ft_checkforoption(format[chars+1], args);
-			chars++;
-		}
-		else if (format[chars] != '%')
-			ft_putchar_fd(format[chars], 1);
-		chars++;
-	}
+	chars = ft_loop_format(format, chars, args);
 	va_end(args);
 	return (chars);
 }
