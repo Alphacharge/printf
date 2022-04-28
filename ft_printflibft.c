@@ -6,7 +6,7 @@
 /*   By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:08:41 by rbetz             #+#    #+#             */
-/*   Updated: 2022/04/27 17:13:58 by rbetz            ###   ########.fr       */
+/*   Updated: 2022/04/28 10:46:38 by rbetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	ft_putstr_fd(char *s, int fd, char c)
 	}
 	if (c == 'i' || c == 'd' || c == 'u')
 		free (s);
-	return(i);
+	return (i);
 }
 
 int	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, sizeof(char));
-	return(1);
+	return (1);
 }
 
 static int	ft_count(long c)
