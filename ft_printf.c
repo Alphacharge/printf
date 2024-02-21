@@ -34,7 +34,10 @@ int	ft_hex(unsigned long quotient, char c)
 	char	*result;
 
 	if (quotient == 0)
-		return (ft_putchar_fd('0', 1));
+	{
+		ft_putchar_fd('0', 1);
+		return (1);
+	}
 	i = ft_counthex(quotient);
 	result = ft_calloc(i + 1, sizeof(char));
 	if (result == NULL)
@@ -51,7 +54,7 @@ int	ft_hex(unsigned long quotient, char c)
 			result[i] = remainder + 'a' - 10;
 		quotient = quotient / 16;
 	}
-	i = ft_putstr_fd(result, 1, c);
+	i = ft_putstr(result, c);
 	free(result);
 	return (i);
 }
@@ -59,24 +62,25 @@ int	ft_hex(unsigned long quotient, char c)
 int	ft_flaghandling(char c, va_list args)
 {
 	if (c == 'c')
-		return (ft_putchar_fd(va_arg(args, int), 1));
+		ft_putchar_fd(va_arg(args, int), 1);
 	else if (c == '%')
-		return (ft_putchar_fd('%', 1));
+		ft_putchar_fd('%', 1);
 	else if (c == 's')
-		return (ft_putstr_fd(va_arg(args, char *), 1, c));
+		return (ft_putstr(va_arg(args, char *), c));
 	else if (c == 'i' || c == 'd')
-		return (ft_putstr_fd(ft_itoa(va_arg(args, int)), 1, c));
+		return (ft_putstr(ft_ltoa(va_arg(args, int)), c));
 	else if (c == 'u')
-		return (ft_putstr_fd(ft_itoa(va_arg(args, unsigned int)), 1, c));
+		return (ft_putstr(ft_ltoa(va_arg(args, unsigned int)), c));
 	else if (c == 'x' || c == 'X')
 		return (ft_hex(va_arg(args, unsigned int), c));
 	else if (c == 'p')
 	{
-		ft_putstr_fd("0x", 1, c);
+		ft_putstr("0x", c);
 		return (ft_hex(va_arg(args, unsigned long), c) + 2);
 	}
 	else
 		return (0);
+	return (1);
 }
 
 int	ft_loop_format(const char *format, int chars, va_list args)
@@ -92,7 +96,10 @@ int	ft_loop_format(const char *format, int chars, va_list args)
 			i++;
 		}
 		else
-			chars += ft_putchar_fd(format[i], 1);
+		{
+			ft_putchar_fd(format[i], 1);
+			chars++;
+		}
 		i++;
 	}
 	return (chars);

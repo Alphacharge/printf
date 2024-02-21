@@ -1,32 +1,78 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rbetz <rbetz@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/14 13:46:08 by rbetz             #+#    #+#              #
-#    Updated: 2022/04/27 17:22:09 by rbetz            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	:=	libftprintf.a
 
-NAME = "libftprintf.a"
-SRC = ft_printf.c ft_printflibft.c ft_printflibftcalloc.c
-SRCOBJ=$(SRC:.c=.o)
-CC = "cc"
-CFLAGS = -Wall -Wextra -Werror
+###			###			COMPABILITY		###			###
+OS		:=	$(shell uname)
 
-all: $(NAME)
+###			###			COMPILER		###			###
+CC		:=	cc
+CFLAGS	:=	-Wall -Wextra -Werror
+CFLAGS	+=	-g 
+CFLAGS	+=	-fsanitize=address
 
-$(NAME): $(SRCOBJ)
-	ar -rcs $(NAME) $^
+###			###			SOURCES			###			###
+VPATH	:=	./
+
+SRC_F	:=	ft_printf.c
+SRC_F	+=	ft_putstr.c
+
+###			###			OBJECTS			###			###
+OBJ_D	:=	./obj
+OBJ_F	:=	$(patsubst %.c,$(OBJ_D)/%.o,$(SRC_F))
+DEP_F	:=	$(patsubst %.c,$(OBJ_D)/%.d,$(SRC_F))
+
+###			###			COLORS			###			###
+RED		:=	\033[1;31m
+GREEN	:=	\033[1;32m
+YELL	:=	\033[1;33m
+BLUE	:=	\033[1;34m
+WHITE	:=	\033[0m
+
+###			###			LIBRARIES		###			###
+LIBFT_D	:=	./libft
+LIBFT_F	:=	$(LIBFT_D)/libft.a
+LIBFT_U	:=	https://www.github.com/Alphacharge/mylibft
+
+LIB		:=	-L $(LIBFT_D) -l ft
+
+###			###			HEADER			###			###
+INC_D	:=	./inc
+INC_F	:=	-I $(INC_D) -I $(LIBFT_D)
+
+###			###			COMPABILITY		###			###
+
+###			###			RULES			###			###
+all: $(OBJ_D) $(LIBFT_F)
+	@$(MAKE) -j $(NAME)
+
+$(NAME): $(OBJ_F)
+	@ar -rcs $(NAME) $^
+	@echo "$(RED)--->$(BLUE)Printf is compiled.$(WHITE)"
+
+$(OBJ_D)/%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_D):
+	@mkdir -p $@
+
+$(LIBFT_F):
+ifneq ($(shell test -d $(LIBFT_D) && echo exists), exists)
+	@echo "$(GREEN)Clone libft ...$(WHITE)"
+	@git clone -q --branch v1.0.3 --recurse-submodules $(LIBFT_U) $(LIBFT_D)
+endif
+	@$(MAKE) -j -C $(LIBFT_D)
+	
 
 clean:
-	/bin/rm -f $(SRCOBJ) libftprintf.h.gch
+	@rm -rf $(OBJ_D)
+	@make fclean -C $(LIBFT_D)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "$(BLUE)--->$(GREEN)Cleaning $(NAME) .....$(WHITE)"
+	@echo "$(RED)All is cleaned$(WHITE)"
 
 re: fclean all
 
-.PHONY: all $(NAME) clean fclean re
+bonus: all
+
+.PHONY: all fclean clean re bonus

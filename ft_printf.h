@@ -17,16 +17,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdint.h>
+# include "libft/libft.h"
 
 int		ft_printf(const char *format, ...);
 int		ft_loop_format(const char *format, int chars, va_list args);
 int		ft_flaghandling(char c, va_list args);
 int		ft_hex(unsigned long number, char c);
 int		ft_counthex(unsigned long c);
-void	*ft_calloc(size_t count, size_t size);
-void	ft_bzero(void *s, size_t n);
-void	*ft_memset(void *b, int c, size_t len);
-char	*ft_itoa(long n);
-int		ft_putchar_fd(char c, int fd);
-int		ft_putstr_fd(char *s, int fd, char c);
+int		ft_putstr(char *s, char c);
 #endif
